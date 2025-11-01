@@ -1,0 +1,254 @@
+<!doctype html>
+
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Album Cinta — 18 Foto</title>
+  <style>
+    :root{
+      font-family: 'Poppins', system-ui, sans-serif;
+      margin:0;
+      --pink:#ffc0cb;
+      --pink-dark:#ff99aa;
+      --white:#fff;
+      --gray:#444;
+    }
+    body{
+      padding:20px;
+      background:linear-gradient(135deg, var(--pink), var(--pink-dark));
+      color:var(--gray);
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+    h1{
+      font-size:26px;
+      margin:0 0 20px;
+      text-align:center;
+      color:#c2185b;
+      text-shadow:1px 1px 2px rgba(255,255,255,0.7);
+      animation: fadeIn 1s ease-in-out;
+    }
+    #controls{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-bottom:12px;
+      justify-content:center;
+      animation: fadeInUp 1.5s ease;
+    }
+    button,input[type=file]{
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid #f8a5b5;
+      background:#ffe6eb;
+      cursor:pointer;
+      transition:all 0.2s;
+    }
+    button:hover{
+      background:#ffccd5;
+      transform:scale(1.05);
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(6,1fr);
+      gap:10px;
+      justify-items:center;
+      animation: fadeInUp 1.2s ease;
+    }
+    .slot{
+      background:#fffafc;
+      border:2px dashed #f4a5b8;
+      border-radius:14px;
+      padding:6px;
+      min-height:90px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      overflow:hidden;
+      width:100%;
+      box-shadow:0 2px 6px rgba(0,0,0,0.1);
+      transition:transform 0.3s, box-shadow 0.3s;
+    }
+    .slot:hover{
+      transform:scale(1.05);
+      box-shadow:0 4px 12px rgba(0,0,0,0.15);
+    }
+    .slot img{
+      max-width:100%;
+      max-height:120px;
+      object-fit:cover;
+      border-radius:10px;
+      animation: fadeIn 0.7s ease-in-out;
+    }
+    .slot .label{
+      position:absolute;
+      left:6px;top:6px;
+      background:rgba(255,255,255,0.9);
+      padding:2px 6px;
+      border-radius:6px;
+      font-size:12px;
+      color:#c2185b;
+    }
+    .slot .remove{
+      position:absolute;
+      right:6px;top:6px;
+      background:#ffe6eb;
+      border-radius:6px;
+      padding:2px 6px;
+      font-size:12px;
+      cursor:pointer;
+      color:#c2185b;
+      font-weight:bold;
+      transition:background 0.2s;
+    }
+    .slot .remove:hover{
+      background:#ffccd5;
+    }
+    footer{
+      margin-top:16px;
+      font-size:13px;
+      color:#a14462;
+      text-align:center;
+      animation: fadeIn 2s ease;
+    }
+    .small{font-size:13px;color:#a14462;}
+    textarea{
+      width:100%;
+      height:80px;
+      border-radius:10px;
+      border:1px solid #f8a5b5;
+      background:#fffafc;
+      padding:8px;
+      color:#c2185b;
+      animation: fadeInUp 1.4s ease;
+    }/* Animations */
+@keyframes fadeIn {
+  from {opacity:0;}
+  to {opacity:1;}
+}
+@keyframes fadeInUp {
+  from {opacity:0; transform:translateY(20px);}
+  to {opacity:1; transform:translateY(0);}
+}
+@keyframes sparkle {
+  0%,100% {opacity:0.8; transform:scale(1);}
+  50% {opacity:1; transform:scale(1.3);}
+}
+
+.sparkle {
+  position:absolute;
+  width:6px;
+  height:6px;
+  background:#fff;
+  border-radius:50%;
+  animation: sparkle 1.5s ease-in-out infinite;
+  pointer-events:none;
+}
+
+  </style>
+</head>
+<body>
+  <h1>💖 Album Cinta — 18 Foto 💖</h1>
+  <div id="controls">
+    <button id="clearAll">Hapus Semua</button>
+    <button id="exportJson">Simpan Album (JSON)</button>
+    <button id="copyShare">Buat Teks Berbagi</button>
+    <input id="importFile" type="file" accept="application/json" />
+    <div class="small">Mode: <strong id="modeLabel">Lokal (penyimpanan di browser)</strong></div>
+  </div>  <div class="grid" id="grid"></div>  <input type="file" id="hiddenFile" accept="image/*" style="display:none" />  <div style="margin-top:10px">
+    <div class="small">Teks berbagi (copy & paste untuk dibagikan 💌):</div>
+    <textarea id="shareText" placeholder="Tekan 'Buat Teks Berbagi' lalu copy isi di sini"></textarea>
+  </div>  <footer>
+    <div>💞 Klik kotak untuk menambahkan foto kenanganmu. Foto disimpan di perangkat ini agar tetap abadi. Untuk berbagi dengan orang tersayang, buat teks berbagi dan kirim! 💞</div>
+  </footer>  <script>
+    const STORAGE_KEY = 'photo_album_cinta_18';
+    const SLOTS = 18;
+
+    function readStorage(){
+      try{const d = localStorage.getItem(STORAGE_KEY); return d?JSON.parse(d):Array(SLOTS).fill(null)}catch(e){return Array(SLOTS).fill(null)}
+    }
+    function writeStorage(arr){localStorage.setItem(STORAGE_KEY,JSON.stringify(arr))}
+
+    const grid = document.getElementById('grid');
+    const hiddenFile = document.getElementById('hiddenFile');
+    const shareText = document.getElementById('shareText');
+
+    let album = readStorage();
+    let currentSlot = null;
+
+    function addSparkle(el){
+      for(let i=0;i<3;i++){
+        const sp = document.createElement('div');
+        sp.className='sparkle';
+        sp.style.left = Math.random()*100+'%';
+        sp.style.top = Math.random()*100+'%';
+        sp.style.animationDelay = (Math.random()*1.5)+'s';
+        el.appendChild(sp);
+        setTimeout(()=>sp.remove(),1500);
+      }
+    }
+
+    function render(){
+      grid.innerHTML = '';
+      for(let i=0;i<SLOTS;i++){
+        const el = document.createElement('div'); el.className='slot'; el.dataset.index=i;
+        const label = document.createElement('div'); label.className='label'; label.textContent = `#${i+1}`; el.appendChild(label);
+        if(album[i]){
+          const img = document.createElement('img'); img.src = album[i]; el.appendChild(img);
+          const rm = document.createElement('div'); rm.className='remove'; rm.textContent='x'; rm.onclick = (ev)=>{ev.stopPropagation(); album[i]=null; writeStorage(album); render();}; el.appendChild(rm);
+        } else {
+          el.textContent = '💗 Upload Foto';
+        }
+        el.onclick = ()=>{ currentSlot = i; hiddenFile.click(); };
+        grid.appendChild(el);
+      }
+    }
+
+    hiddenFile.addEventListener('change', (e)=>{
+      const f = e.target.files[0]; if(!f) return; if(!f.type.startsWith('image/')){alert('Pilih file gambar cinta 💞'); return}
+      const reader = new FileReader();
+      reader.onload = ()=>{
+        album[currentSlot] = reader.result;
+        writeStorage(album);
+        render();
+        addSparkle(grid.children[currentSlot]);
+        hiddenFile.value = '';
+      };
+      reader.readAsDataURL(f);
+    });
+
+    document.getElementById('clearAll').onclick = ()=>{if(confirm('Hapus semua foto cinta? 😢')){album = Array(SLOTS).fill(null); writeStorage(album); render();}};
+
+    document.getElementById('exportJson').onclick = ()=>{
+      const data = {created: new Date().toISOString(), slots: album};
+      const blob = new Blob([JSON.stringify(data)],{type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download='album-cinta.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    };
+
+    function createShareText(){
+      const payload = {slots: album, created: new Date().toISOString()};
+      const json = JSON.stringify(payload);
+      try{const b64 = btoa(unescape(encodeURIComponent(json))); return b64}catch(e){return null}
+    }
+
+    document.getElementById('copyShare').onclick = ()=>{
+      const t = createShareText(); if(!t){alert('Gagal membuat string berbagi 😢'); return}
+      shareText.value = t; navigator.clipboard?.writeText(t).then(()=>alert('💌 String cinta sudah disalin ke clipboard!'),()=>alert('Berhasil membuat string, salin manual dari textarea.'));
+    };
+
+    document.getElementById('importFile').addEventListener('change', (e)=>{
+      const f = e.target.files[0]; if(!f) return; const r = new FileReader(); r.onload=()=>{try{const data=JSON.parse(r.result); if(data.slots && Array.isArray(data.slots)){album = data.slots.slice(0,SLOTS); writeStorage(album); render(); alert('Album cinta berhasil diimpor 💖');}else alert('Format JSON tidak dikenali.');}catch(err){alert('JSON invalid.');}}; r.readAsText(f);
+    });
+
+    shareText.addEventListener('paste', (e)=>{
+      setTimeout(()=>{
+        const v = shareText.value.trim(); if(!v) return; try{const json = decodeURIComponent(escape(atob(v))); const data = JSON.parse(json); if(data.slots && Array.isArray(data.slots)){if(confirm('Import album cinta dari string?')){album = data.slots.slice(0,SLOTS); writeStorage(album); render(); alert('Album cinta berhasil diimpor 💗');}}}catch(err){}
+      },50);
+    });
+
+    render();
+  </script></body>
+</html>
