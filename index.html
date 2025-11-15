@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Album Cinta — 18 Foto</title>
+  <title>Album Kitaa Diraaa</title>
   <style>
     :root{
       font-family: 'Poppins', system-ui, sans-serif;
@@ -153,15 +153,15 @@
   <h1>💖 Album Cinta — 18 Foto 💖</h1>
   <div id="controls">
     <button id="clearAll">Hapus Semua</button>
-    <button id="exportJson">Simpan Album (JSON)</button>
-    <button id="copyShare">Buat Teks Berbagi</button>
+    <button id="exportJson">pilih simpan :3</button>
+    <button id="copyShare">Love you</button>
     <input id="importFile" type="file" accept="application/json" />
-    <div class="small">Mode: <strong id="modeLabel">Lokal (penyimpanan di browser)</strong></div>
+    <div class="small">Mode: <strong id="modeLabel">Dipa&Dira</strong></div>
   </div>  <div class="grid" id="grid"></div>  <input type="file" id="hiddenFile" accept="image/*" style="display:none" />  <div style="margin-top:10px">
-    <div class="small">Teks berbagi (copy & paste untuk dibagikan 💌):</div>
+    <div class="small">Teks berbagi (isi teks harapan kamuu diraa:3):</div>
     <textarea id="shareText" placeholder="Tekan 'Buat Teks Berbagi' lalu copy isi di sini"></textarea>
   </div>  <footer>
-    <div>💞 Klik kotak untuk menambahkan foto kenanganmu. Foto disimpan di perangkat ini agar tetap abadi. Untuk berbagi dengan orang tersayang, buat teks berbagi dan kirim! 💞</div>
+    <div>💞 Ayooo sayang kitaa isi galerii kitaa inii 💞</div>
   </footer>  <script>
     const STORAGE_KEY = 'photo_album_cinta_18';
     const SLOTS = 18;
@@ -207,7 +207,7 @@
     }
 
     hiddenFile.addEventListener('change', (e)=>{
-      const f = e.target.files[0]; if(!f) return; if(!f.type.startsWith('image/')){alert('Pilih file gambar cinta 💞'); return}
+      const f = e.target.files[0]; if(!f) return; if(!f.type.startsWith('image/')){alert('Pilih file gambar kita 💞'); return}
       const reader = new FileReader();
       reader.onload = ()=>{
         album[currentSlot] = reader.result;
