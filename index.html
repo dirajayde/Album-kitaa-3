@@ -236,7 +236,7 @@
 
     document.getElementById('copyShare').onclick = ()=>{
       const t = createShareText(); if(!t){alert('Gagal membuat string berbagi 😢'); return}
-      shareText.value = t; navigator.clipboard?.writeText(t).then(()=>alert('💌 String cinta sudah disalin ke clipboard!'),()=>alert('Berhasil membuat string, salin manual dari textarea.'));
+      shareText.value = t; navigator.clipboard?.writeText(t).then(()=>alert('💌 Web ini bakal jadi bukti cintaa kitaa di masaa depaan <3'),()=>alert('Berhasil membuat string, salin manual dari textarea.'));
     };
 
     document.getElementById('importFile').addEventListener('change', (e)=>{
