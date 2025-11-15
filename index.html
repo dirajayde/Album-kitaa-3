@@ -160,17 +160,17 @@
   <h1>💖 Album Kitaaaa ayaaang ⁠〃ﾟ⁠3ﾟ⁠〃</h1>
   <div id="controls">
     <button id="clearAll">Hapus Semua</button>
-    <button id="exportJson">pilih simpan :3</button>
-    <button id="copyShare">Love you</button>
+    <button id="exportJson">pilih simpan꒰⁠⑅⁠ᵕ⁠༚⁠ᵕ⁠꒱♡</button>
+    <button id="copyShare">Love you⁠◕⁠દ⁠◕</button>
     <input id="importFile" type="file" accept="application/json" />
     <div class="small">Album: <strong id="modeLabel">Dipa&Dira ⁠꒰っ⁠˘⁠з꒰˘⁠⌣⁠˘꒱</strong></div>
   </div>  <div class="grid" id="grid"></div>  <input type="file" id="hiddenFile" accept="image/*" style="display:none" />  <div style="margin-top:10px">
-    <div class="small">Teks berbagi (isi teks harapan kamuu diraa:3):</div>
+    <div class="small">Teks berbagi (isi teks harapan kamuu diraa꒰⁠⑅⁠ᵕ⁠༚⁠ᵕ⁠꒱♡):</div>
     <textarea id="shareText" placeholder="Tekan 'Buat Teks Berbagi' lalu copy isi di sini"></textarea>
   </div>  <footer>
     <div>💞 Ayooo sayang kitaa isi galerii kitaa inii ෆ⁠╹⁠ ⁠.̮⁠ ⁠╹⁠ෆ</div>
   </footer>  <script>
-    const STORAGE_KEY = 'photo_album_kitaaaa_ayaaang_:3';
+    const STORAGE_KEY = 'photo_album_kitaaaa_ayaaang_꒰⁠⑅⁠ᵕ⁠༚⁠ᵕ⁠꒱♡';
     const SLOTS = 18;
 
     function readStorage(){
@@ -206,7 +206,7 @@
           const img = document.createElement('img'); img.src = album[i]; el.appendChild(img);
           const rm = document.createElement('div'); rm.className='remove'; rm.textContent='x'; rm.onclick = (ev)=>{ev.stopPropagation(); album[i]=null; writeStorage(album); render();}; el.appendChild(rm);
         } else {
-          el.textContent = '💗 Upload Foto ♡⁠˖⁠꒰⁠ᵕ⁠༚⁠ᵕ⁠⑅⁠꒱';
+          el.textContent = '💗 Upload Foto ꒰⁠⑅⁠ᵕ⁠༚⁠ᵕ⁠꒱♡';
         }
         el.onclick = ()=>{ currentSlot = i; hiddenFile.click(); };
         grid.appendChild(el);
